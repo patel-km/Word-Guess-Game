@@ -37,10 +37,20 @@
             //Bank of words to guess (array, pulling from an endless/random list?)
         var words = ["tomato", "oxygen","warrior", "bibliography", "awkward","yacht","bagpipes","pixel","crypt","banjo","phlegm","croquet","kiosk","dwarves","ivory","fervent","sphinx","gazebo","zombie","gypsy","haiku","hyphen","squawk","jukebox","kayak","wildebeest","klutz","mystify","ostracize","pajama","quip","rhythmic","fjord","rogue","swivel","twelfth","zealous","haphazard",];
         var guessedLetters = [];
+        var lettersOnly = /[a-z]/g;
         var chances = 10;
-        var hide= "_";
         var wins = 0;
         var losses = 0;
+        var html = 
+            "<p>"+ strReplace()+"</p>"+
+            "<h2>Your guesses</h2>"+
+            "<h3>"+ guessedLetters +"</h3>"+
+            "<p>You have " + chances + " chances left to guess</p>"+
+            "<br>"+
+            "<br>"+
+            "<h2>Score:</h2>"+
+            "<p>Wins: "+wins+"</p>"+
+            "<p>Losses: "+losses+"</p>";
 
         //Light up signal and maybe sound after initial keystroke to visually signal that game has begun
         
@@ -48,9 +58,22 @@
             //a) display word from "words"
             //1) Add the user's guess into the array of guessed letters
         document.onkeyup = function(event) {
-            var guess = event.key;
+            // var guess = event.key;
             var guess = event.key.toLowerCase();
             guessedLetters.push(guess);
+
+            var html = 
+            "<p>"+ strReplace()+"</p>"+
+            "<h2>Your guesses</h2>"+
+            "<p>"+ guessedLetters +"</p>"+
+            "<p>You have " + chances + " chances left to guess</p>"+
+            "<br>"+
+            "<br>"+
+            "<h2>Score:</h2>"+
+            "<p>Wins: "+wins+"</p>"+
+            "<p>Losses: "+losses+"</p>";
+
+            document.querySelector("#main-game").innerHTML = html;
         }
         
         // for (var i=0; i < words.length; i++){
@@ -105,18 +128,9 @@
         //When user wins or loses, reset the elements for a new game with a new word
 
         //Apply the script to the html
-        var html = 
-            "<p>"+ strReplace()+"</p>"+
-            "<h2>Your guesses</h2>"+
-            "<p>"+ guessedLetters +"</p>"+
-            "<p>You have " + chances + " chances left to guess</p>"+
-            "<br>"+
-            "<br>"+
-            "<h2>Score:</h2>"+
-            "<p>Wins: "+wins+"</p>"+
-            "<p>Losses: "+losses+"</p>";
+        
 
-        document.querySelector("#main-game").innerHTML = html;
+        document.querySelector("#main-game").innerHTML = html
     
         </script>
 
