@@ -28,6 +28,10 @@
 
         </div> <!--"Container" closing Div-->
 
+        <div class="footer">
+            KP
+        </div>
+
         <script>
         //List of terms for game:
             //Bank of words to guess (array, pulling from an endless/random list?)
@@ -39,33 +43,62 @@
         var losses = 0;
 
         //Light up signal and maybe sound after initial keystroke to visually signal that game has begun
-
+        
         //Keystrokes following initial one triggers the following events:
-
+            //a) display word from "words"
             //1) Add the user's guess into the array of guessed letters
         document.onkeyup = function(event) {
             var guess = event.key;
+            var guess = event.key.toLowerCase();
             guessedLetters.push(guess);
-            
+        }
+        
+        // for (var i=0; i < words.length; i++){
+            //write in word
+            //replace the characters with _
+            //replace _ with guessed characters as user guesses
+            //once word is filled in OR chances < 1, replace word with next in array
+        //}
+
+        function strReplace() {
+            var open = words [0];
+            var hidden = open.replace("\\.","_");
+            hidden;
+        }
+        
+        strReplace();
+
+        // str = str.replaceAll(".", "_");
+        
             //2) If key pressed = character in word, 
-            if (guess==="character in word") {
-                //fill in blanks on word where applicable
+        //     if (str.includes(guess) {
+        //         //fill in blanks on word where applicable
+        //         
+                // function strReplace(){
+                //     var myStr = words[0];
+                //     var newStr = myStr.replace(/_/g, guess);
+                    
+                //     // Insert modified string in paragraph
+                //     $("p").html(newStr);
+                // }
+
                 //no alteration on remainingChances
-            }
-            // 3) calculating chances remaining after user makes a wrong guess
-            if (guess!== "character in word") {
-                chances--;
-            }
-        }
+
+        //     }
+        //     // 3) calculating chances remaining after user makes a wrong guess
+        //     if (guess!== "character in word") {
+        //         chances--;
+        //     }
+        // }
         
-        //if user solves word before chances =0,
-        if ("------------") {
-            wins++;//User wins
-        }
+        // //if user solves word before chances =0,
+        // if (chances>0 && "------------") {
+        //     wins++;//User wins
+        // }
         
-        if (chances=0) {
-            losses++;//User loses
-        }
+        // if (chances=0) {
+        //     losses++;//User loses
+        // }
 
         //No "chances" effect for a repeated keystroke, AKA can't get penalized for clicking the same letter more than once.
 
@@ -73,10 +106,10 @@
 
         //Apply the script to the html
         var html = 
-            //word to guess goes here{"<p></p>"
+            "<p>"+ strReplace()+"</p>"+
             "<h2>Your guesses</h2>"+
-            "<p>"+guessedLetters+"</p>"+
-            "<p>You have " +chances + " chances left to guess</p>"+
+            "<p>"+ guessedLetters +"</p>"+
+            "<p>You have " + chances + " chances left to guess</p>"+
             "<br>"+
             "<br>"+
             "<h2>Score:</h2>"+

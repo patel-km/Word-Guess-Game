@@ -1,5 +1,13 @@
-body {
+/* Fonts */
+.container {
     font-family: 'Dawning of a New Day', cursive;
+    margin:auto;
+    display:block;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 20px;
+    padding:35px;
+    border: thin solid grey;
 }
 
 h1 {
@@ -10,11 +18,33 @@ h1 {
 h2{
     font-size:26px;
     line-height: 1.5;
-    text-decoration: underline darkgrey;
+    text-decoration: underline black;
 }
 
 p{
     font-size: 26px;
     line-height: 1.5;
 }
-font-family: 'Bad Script', cursive;
+/* font for hangman word
+font-family: 'Bad Script', cursive; */
+
+/* Background element of game */
+#main-game {
+    background-color: lightpink;
+    border: 0.5px gray;
+    padding:20px;
+    text-align: right;
+}
+
+/* Footer styling*/
+.footer{
+    background-color: darkgray;
+    height:20px;
+    width: 100%;
+    padding-top: 10px;
+    bottom:0;
+    position: absolute;
+    text-align: center;
+    font-family: 'Bad Script', cursive;
+    font-size:12px;
+}
