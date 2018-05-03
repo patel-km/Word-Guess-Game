@@ -36,13 +36,13 @@
         //List of terms for game:
         var words = ["tomato", "oxygen","warrior", "bibliography", "awkward","yacht","bagpipes","pixel","crypt","banjo","phlegm","croquet","kiosk","dwarves","ivory","fervent","sphinx","gazebo","zombie","gypsy","haiku","hyphen","squawk","jukebox","kayak","wildebeest","klutz","mystify","ostracize","pajama","quip","rhythmic","fjord","rogue","swivel","twelfth","zealous","haphazard",];
         var userGuess = [];//wrong keypress pushed into this array
-        var trueLetters= "";
+        var trueLetters= [];//once word is split up, letters will go in here
         var chances = 9;
         var wins = 0;
         var losses = 0;
         var dashes = 0;//will count the letters in the selected word and convert those letters to underscores
         var html = 
-            "<p>"+ getword()+"</p>"+
+            "<p>"+ getWord()+"</p>"+
             "<h2>Your guesses</h2>"+
             "<h3>"+ userGuess +"</h3>"+
             "<p>You have " + chances + " chances left to guess</p>"+
@@ -52,23 +52,25 @@
             "<p>Wins: "+wins+"</p>"+
             "<p>Losses: "+losses+"</p>";
 
-        game();
-        roundComplete();
+        
+        document.querySelector("#main-game").innerHTML = html//Apply the script to the html
 
-        //defining the functions to be used
+
+    //Below are the functions _______________________________________
             
             
     //_______________________________________________________________
         //Display word from "words"
         //Replace the letters in that word with "_"
-        function getword() {
-            var computerGuess = computerChoices[Math.floor(Math.random() * words.length)];
+        function getWord() {
+            var generatedWord = words[Math.floor(Math.random() * words.length)];
 
-            var trueLetters = words.split("");
+            var trueLetters = generatedWord.split("");
             console.log(trueLetters);
 
-            for (trueLetters === "") {
+            if (trueLetters !== " " || trueLetters ==="") {
             trueLetters.push("_");
+            }
         }
     //_______________________________________________________________
         //Add the user's wrong guess into the array of guessed letters
@@ -91,6 +93,9 @@
             "<h2>Score:</h2>"+
             "<p>Wins: "+wins+"</p>"+
             "<p>Losses: "+losses+"</p>";
+            
+            game();
+            roundComplete();
 
             document.querySelector("#main-game").innerHTML = html;
             gameFunction();
@@ -137,8 +142,7 @@
     //_______________________________________________________________
 
 
-        //Apply the script to the html
-        document.querySelector("#main-game").innerHTML = html
+        
     
         </script>
 
