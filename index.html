@@ -12,7 +12,7 @@
     <body>
         <div class="container">
             <div class="head">
-                <h1>Hangman</h1>
+                <h1>Guess the Word</h1>
                 <br>
                 <p>
                     Start playing immediately by pressing a letter to make your first guess!
@@ -22,7 +22,7 @@
             
             <div id="main-game">
                 <p>
-                    <!-- word goes here, so the little underscores -->
+                    <!-- Word blanks here -->
                 </p>
             </div>
 
@@ -31,20 +31,20 @@
         <div class="footer">
             KP
         </div>
-
+        
         <script>
         //List of terms for game:
-            //Bank of words to guess (array, pulling from an endless/random list?)
         var words = ["tomato", "oxygen","warrior", "bibliography", "awkward","yacht","bagpipes","pixel","crypt","banjo","phlegm","croquet","kiosk","dwarves","ivory","fervent","sphinx","gazebo","zombie","gypsy","haiku","hyphen","squawk","jukebox","kayak","wildebeest","klutz","mystify","ostracize","pajama","quip","rhythmic","fjord","rogue","swivel","twelfth","zealous","haphazard",];
-        var guessedLetters = [];
-        var lettersOnly = /[a-z]/g;
-        var chances = 10;
+        var userGuess = [];//wrong keypress pushed into this array
+        var trueLetters= "";
+        var chances = 9;
         var wins = 0;
         var losses = 0;
+        var dashes = 0;//will count the letters in the selected word and convert those letters to underscores
         var html = 
-            "<p>"+ strReplace()+"</p>"+
+            "<p>"+ getword()+"</p>"+
             "<h2>Your guesses</h2>"+
-            "<h3>"+ guessedLetters +"</h3>"+
+            "<h3>"+ userGuess +"</h3>"+
             "<p>You have " + chances + " chances left to guess</p>"+
             "<br>"+
             "<br>"+
@@ -52,20 +52,39 @@
             "<p>Wins: "+wins+"</p>"+
             "<p>Losses: "+losses+"</p>";
 
-        //Light up signal and maybe sound after initial keystroke to visually signal that game has begun
-        
-        //Keystrokes following initial one triggers the following events:
-            //a) display word from "words"
-            //1) Add the user's guess into the array of guessed letters
+        game();
+        roundComplete();
+
+        //defining the functions to be used
+            
+            
+    //_______________________________________________________________
+        //Display word from "words"
+        //Replace the letters in that word with "_"
+        function getword() {
+            var computerGuess = computerChoices[Math.floor(Math.random() * words.length)];
+
+            var trueLetters = words.split("");
+            console.log(trueLetters);
+
+            for (trueLetters === "") {
+            trueLetters.push("_");
+        }
+    //_______________________________________________________________
+        //Add the user's wrong guess into the array of guessed letters
+        //Fill in the blank in the word if the user chooses a letter that matches
+        //No "chances" effect for a repeated keystroke, AKA can't get penalized for clicking the same letter more than once.
         document.onkeyup = function(event) {
             // var guess = event.key;
-            var guess = event.key.toLowerCase();
-            guessedLetters.push(guess);
+            var guess = event.key.fromCharCode()
+            
+            if (guess === choice) {
+                userGuess.push(guess);
+            }
 
             var html = 
-            "<p>"+ strReplace()+"</p>"+
             "<h2>Your guesses</h2>"+
-            "<p>"+ guessedLetters +"</p>"+
+            "<p>"+ userGuess +"</p>"+
             "<p>You have " + chances + " chances left to guess</p>"+
             "<br>"+
             "<br>"+
@@ -74,62 +93,51 @@
             "<p>Losses: "+losses+"</p>";
 
             document.querySelector("#main-game").innerHTML = html;
+            gameFunction();
         }
-        
-        // for (var i=0; i < words.length; i++){
-            //write in word
-            //replace the characters with _
-            //replace _ with guessed characters as user guesses
-            //once word is filled in OR chances < 1, replace word with next in array
-        //}
 
-        function strReplace() {
-            var open = words [0];
-            var hidden = open.replace("\\.","_");
-            hidden;
+    //_______________________________________________________________
+        //Replacing the "_" with the correct letter if the key pressed = character in word
+        function game(letter) {
+            var trueLetters = false;
+
+            for (var i=0; i < dashes; i++) {
+                if (word(i)===letter) {
+                    trueLetters=true;
+                }
+                
+                if(trueLetters) {
+                    for (var j=0; j< dashes; j++) {
+                        //replace all instances of that letter in the word
+                        //no effect on chances
+
+                    }
+
+                }
+
+                else {
+                    //calculate chances remaining, since user just made a wrong guess
+                }
+            }
+            
         }
-        
-        strReplace();
 
-        // str = str.replaceAll(".", "_");
-        
-            //2) If key pressed = character in word, 
-        //     if (str.includes(guess) {
-        //         //fill in blanks on word where applicable
-        //         
-                // function strReplace(){
-                //     var myStr = words[0];
-                //     var newStr = myStr.replace(/_/g, guess);
-                    
-                //     // Insert modified string in paragraph
-                //     $("p").html(newStr);
-                // }
-
-                //no alteration on remainingChances
-
-        //     }
-        //     // 3) calculating chances remaining after user makes a wrong guess
-        //     if (guess!== "character in word") {
-        //         chances--;
-        //     }
-        // }
-        
-        // //if user solves word before chances =0,
-        // if (chances>0 && "------------") {
-        //     wins++;//User wins
-        // }
-        
-        // if (chances=0) {
-        //     losses++;//User loses
-        // }
-
-        //No "chances" effect for a repeated keystroke, AKA can't get penalized for clicking the same letter more than once.
-
+    //_______________________________________________________________
+        //Determine if user won or lost, and restart by getting another word
         //When user wins or loses, reset the elements for a new game with a new word
+        function roundComplete() {
+            if (chances <1) {
+                console.log(losses+1);
+
+            } else {//OR if (chances >0 && word filled in)
+                console.log(wins+1);
+            }
+            getWord();
+        }
+    //_______________________________________________________________
+
 
         //Apply the script to the html
-        
-
         document.querySelector("#main-game").innerHTML = html
     
         </script>
