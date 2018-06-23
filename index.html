@@ -35,35 +35,52 @@
         </div>
         
         <script>
-        //List of terms for game:
-        var words = ["tomato", "oxygen","warrior", "bibliography", "awkward","yacht","bagpipes","pixel","crypt","banjo","phlegm","croquet","kiosk","dwarves","ivory","fervent","sphinx","gazebo","zombie","gypsy","haiku","hyphen","squawk","jukebox","kayak","wildebeest","klutz","mystify","ostracize","pajama","quip","rhythmic","fjord","rogue","swivel","twelfth","zealous","haphazard",];
-        var userGuess = [];//wrong keypress pushed into this array
+
+    //Global variables____________________________________________________________________________________________________________________________________
+
+        var words = ["tomato", "oxygen","warrior", "bibliography", "awkward","yacht","bagpipes","pixel","crypt","banjo","phlegm","croquet","kiosk","dwarves","ivory","fervent","sphinx","gazebo","zombie","gypsy","haiku","hyphen","squawk","jukebox","kayak","wildebeest","klutz","mystify","ostracize","pajama","quip","rhythmic","fjord","rogue","swivel","twelfth","zealous","haphazard",];//List of terms for game
         var trueLetters= [];//once word is split up, letters will go in here
+        var dashes = []; //for every item in above array, will replace with an underscore 
+        var guessOption = ["a","b","c","d","e","f","g","h","i","h","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+        var userGuess = [];//keypress pushed into this array
         var chances = 9;
         var wins = 0;
-        var losses = 0;
-        var dashes = 0;//will count the letters in the selected word and convert those letters to underscores
-        var blanks = [];
-        var html = 
-            "<p>"+ getWord()+"</p>"+
-            "<h2>Your guesses</h2>"+
-            "<h3>"+ userGuess +"</h3>"+
-            "<p>You have " + chances + " chances left to guess</p>"+
-            "<br>"+
-            "<br>"+
-            "<h2>Score:</h2>"+
-            "<p>Wins: "+wins+"</p>"+
-            "<p>Losses: "+losses+"</p>";
+        var losses = 0; 
+        var correctGuesses = 0;
         
-        // game();
-        // roundComplete();
-        document.querySelector("#main-game").innerHTML = html//Apply the script to the html
+        
+        
 
+        
 
-    //Below are the functions _______________________________________
+//Sequence_________________________________________________________________________________________________________________________________
+
+    game ();
+
+    document.onkeyup = function() {
+
+        var userGuess = event.key.toLowerCase();
+
+        game(userGuess);
+        roundComplete();
+
+            var html = 
+                    "<h3>"+ userGuess +"</h3>"+
+                    "<p>You have " + chances + " chances left to guess</p>"+
+                    "<br>"+
+                    "<br>"+
+                    "<h2>Score:</h2>"+
+                    "<p>Wins: "+ wins +"</p>"+
+                    "<p>Losses: "+ losses +"</p>";
+
+            document.querySelector("#main-game").innerHTML = html//Apply the script to the html
+    };
+
+//Below are the functions _______________________________________
             
             
-    //_______________________________________________________________
+//_______________________________________________________________
+
         //Display word from "words"
         //Replace the letters in that word with "_"
         function getWord() {
@@ -72,114 +89,96 @@
             trueLetters = generatedWord.split("");
             console.log(trueLetters);
             
-            for (l=0; l<trueLetters.length; l++) {
-                blanks[l] = "_";
-            }
-
-            console.log(blanks);
-            return blanks.join(" ");
-        }
-    //_______________________________________________________________
-        //Add the user's wrong guess into the array of guessed letters
-        //Fill in the blank in the word if the user chooses a letter that matches
-        //No effect on "chances" for a repeated keystroke, AKA can't get penalized for clicking the same wrong letter more than once.
-        document.onkeyup = function(event) {
-            var guess = String.fromCharCode(event.keyCode).toLowerCase();
-
-                if (guess !== trueLetters) {
-                    userGuess.push(guess);
-                }
-
-                if (guess===trueLetters.indexOf) {
-
-                }
-
-            for (var m=0; m < trueLetters.length; m++) {
-                console.log(trueLetters[m]);
-                console.log (guess===trueLetters[m]);
-
-                if (guess===trueLetters[m]) {
-                    //push guess at trueLetters[m];
-                }
+            for (i = 0; i < trueLetters.length; i++) {
+                dashes[i] = "_";
+                console.log(dashes);
             }
             
             var html = 
-            "<p>"+ trueLetters+"</p>"+
-            "<h2>Your guesses</h2>"+
-            "<p>"+ userGuess +"</p>"+
-            "<p>You have " + chances + " chances left to guess</p>"+
-            "<br>"+
-            "<br>"+
-            "<h2>Score:</h2>"+
-            "<p>Wins: "+wins+"</p>"+
-            "<p>Losses: "+losses+"</p>";
+            "<p>" + generatedWord + "</p>" +
+            "<h2>Your guesses</h2>";
 
-            game();
-            document.querySelector("#main-game").innerHTML = html;
-            
+            document.querySelector("#main-game").innerHTML = html//Apply the script to the html
+
         }
-
-        
-
     //_______________________________________________________________
-        //When letter correctly guessed, replace "_" with the correct letter
-        function game(letter) {
-            console.log(trueLetters);
-                if (trueLetters !== " " || trueLetters ==="") {
-                    for (var k=0; k <trueLetters.length; k++) {
-                        trueLetters[k].push("_");
-                    }
-                }
-            var trueLetters = false;
 
-            for (var i=0; i < dashes; i++) {
+    //Keypress effects_______________________________________________________________
+        function game(guess) {
+
+            var legitKey = false;
+
+        //Is this key ok to press? (does it match any item in the guessOption array?) If yes, continue.
+            for (var j = 0; j < guessOption.length; j++) {
                 
-                if (trueLetters[i]===letter) {
-                    trueLetters=true;
-                var html = 
-                    "<p>"+ trueLetters+"</p>";
+                if (guess === guessOption[j]) {
+                    legitKey=true;
+                    var html = 
+                    "<p>"+ trueLetters +"</p>";
                 }
-                
-                if(trueLetters) {
-                    for (var j=0; j < dashes; j++) {
+        //Has this key already been pressed? If not, continue. 
+                for (k = 0; k < userGuess.length; k++) {
+                    if (guess === userGuess[k]) {
+                        legitKey=false;
+                    } 
+                }
+
+        //Now we know this is an ok key to use. 
+        //Is the key a right or wrong guess?
+                if(legitKey) {
+
+                    var correct = false;
+
+                    for (var l = 0; l < trueLetters.length; l++) {
                         
-                        if (trueLetters[j]) {
-                        trueLetters.push(guess); //replace all instances of that letter in the word
-
-                        //no effect on chances
+                        if (guess === trueLetters[l]) {
+                        //replace all instances of that letter in the word
+                        //Replace _ with userGuess/keypress.
+                        dashes[l] = userGuess;
+                        correctGuesses++;
+                        correct = true;
                         }
                     }
-                }
 
-                else {
-                    //calculate chances remaining, since user just made a wrong guess
+                    //right guess = no effect on chances
+                    if (correct === true) {
+                        chances = chances;
+                    }
+                    //wrong guess = chances--;
+                    else {
+                        chances = chances -1;
+                    }
+
+                    correct = false;
                 }
-            } 
-        }
+            }
+        };
 
     //_______________________________________________________________
         //Determine if user won or lost, and restart by doing getWord()
         //When user wins or loses, reset the elements for a new game with a new word
         function roundComplete() {
-            if (chances <1) {
-                console.log(losses++);
+            if (chances === 0) {
+                losses++;
+                reset();
+                getWord();
+            } 
 
-            } else {//OR if (chances >0 && word filled in)
-                console.log(wins++);
+            else if (correctGuesses === trueLetters) {
+                wins++;
+                reset();
+                getWord();
             }
-            trueLetters.join ("");//puts blanks and letters together as a string
-
-            getWord();
         }
-    //_______________________________________________________________
 
-    //Phil notes:
-        //check if the guess is in the array of trueLetters
-        //replace all instances of that blank with the guess
-        //if not, wrong guess --> put in array
+        function reset () {
+                    correctGuesses = 0;
+                    userGuess = [];
+                    dashes= [];
+                    trueLetters = [];
+                    chances= 9;
+        }
 
-        
-    
         </script>
 
     </body>

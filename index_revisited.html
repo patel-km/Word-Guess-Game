@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <title>Word Guessing Game</title>
+        <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Bad+Script|Dawning+of+a+New+Day" rel="stylesheet">
+
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="head">
+                <h1>Guess the Word</h1>
+                <br>
+                <p>
+                    Start playing immediately by pressing a letter to make your first guess!
+                </p>
+                <br>
+            </div>
+            <div id="guesses">
+                <!--Array of wrong guesses here -->
+            </div>
+            
+            <div id="main-game">
+                    <!-- Word blanks here -->
+            </div>
+
+            <div id="bgImages">
+                    <!-- background images here  -->
+            </div>
+        </div> <!--"Container" closing Div-->
+
+        <div class="footer">
+            KP
+        </div>
+
+<!-- JAVASCRIPT UNDERNEATH ___________________________________________________-->
+        <script>
+
+ //Steps
+    //1) Make global variables
+        //We need: an array of words to choose from
+        var word = ["tomato", "oxygen","warrior", "bibliography", "awkward","yacht","bagpipes","pixel","crypt","banjo","phlegm","croquet","kiosk","dwarves","ivory","fervent","sphinx","gazebo","zombie","gypsy","haiku","hyphen","squawk","jukebox","kayak","wildebeest","klutz","mystify","ostracize","pajama","quip","rhythmic","fjord","rogue","swivel","twelfth","zealous","haphazard",];
+        var gameLetters = [];
+        var dashes =  [];
+        var guessOptions = ["a","b","c","d","e","f","g","h","i","h","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+        var guesses = [];
+        var chances = 9;
+        var wins = 0;
+        var losses = 0;
+        var correctGuesses = 0;
+
+        
+        // the sequence that is run
+        startGame();
+
+        document.onkeyup = function() {
+
+            var userGuess = event.key.toLowerCase();
+
+            gamePlay(userGuess);
+            result();
+
+            // Game check in console
+            console.log("guesses - " + guesses);
+            console.log("gameLetters - " + gameLetters);
+            console.log("correctGuesses - " + correctGuesses);
+            console.log("chances - " + chances);
+            console.log("wins - " + wins);
+            console.log("losses - " + losses);
+            
+            // Apply the script to the html
+            var html = 
+            "<p>" + dashes + "</p>"+
+            "<h2>Your guesses</h2>"+
+            "<h3>"+ guesses +"</h3>"+
+            "<p>You have " + chances + " chances left to guess</p>"+
+            "<br>"+
+            "<br>"+
+            "<h2>Score:</h2>"+
+            "<p>Wins: "+ wins +"</p>"+
+            "<p>Losses: "+ losses +"</p>";
+
+            document.querySelector("#main-game").innerHTML = html;
+        }; 
+
+    //2 Make functions
+//_____function definitions below______________________________________________________________________
+        
+
+
+        //starts the game when a key is pressed__________________________________________________________
+        function startGame () {
+            // Choose word randomly on an event  
+            var chooseWord = word[Math.floor(Math.random() * word.length)];
+            console.log(chooseWord);
+
+            // splits the game word into an array with each letter as its own item
+            gameLetters = chooseWord.split("");
+            console.log(gameLetters);
+
+            // populates the array that gets printed on the screen with dashes for each letter
+            for (i = 0; i < gameLetters.length; i++) {
+                dashes[i] = "_";
+            };
+            console.log(dashes);
+            return dashes.join(" ");
+
+            document.getElementById('blanks').innerHtml = dashes; 
+
+        };
+
+//______//decides if a key is valid and matches the word, and fills in the blank__________________________________________________
+        function gamePlay(userGuess) {
+
+            var legitKey=false;
+            //is this key ok to press
+            for (j=0; j < guessOptions.length; j++) {
+                if (userGuess === guessOptions[j]) {
+                    legitKey=true;
+                }
+            }
+            console.log(legitKey);
+            
+            //has this key been pressed
+            for (l=0; l < guesses.length; l++) {
+                if (userGuess === guesses[l]) {
+                    legitKey=false;
+                } 
+            }
+
+            //This is a valid key, now is this key correct?
+            if (legitKey) {
+
+                var correct = false;
+
+                guesses.push(userGuess);
+
+                for (m=0; m < gameLetters.length; m++) {
+                    if (userGuess === gameLetters[m]) {
+                        //replace all instances of this scenario with the true userGuess
+                        dashes[m] = userGuess;
+                        correctGuesses++;
+                        correct = true;
+                    }
+                    
+                }
+
+                if (correct===true) {
+                    chances=chances;
+                } else {
+                    chances = chances - 1;
+                }
+
+                correct = false;
+            }
+        };
+
+//______//win or lose + reset the game__________________________________________________________________________
+        function result() {
+            if (chances===0) {
+                losses++;
+                reset();
+                startGame();
+            }
+
+            else if (correctGuesses === gameLetters.length) {
+                wins++;
+                reset();
+                startGame();
+            }
+
+        };
+
+        function reset () {
+            correctGuesses = 0;
+            guesses = [];
+            dashes= [];
+            gameLetters = [];
+            chances= 9;
+        }
+        </script>
+
+    </body>
+
+</html>

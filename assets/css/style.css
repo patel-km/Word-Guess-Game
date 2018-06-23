@@ -42,6 +42,10 @@ p{
     text-align: right;
 }
 
+#bgImages {
+    background-image: url('../images/flowers/flower1.png');
+}
+
 /* Footer styling*/
 .footer{
     background-color: darkgray;
