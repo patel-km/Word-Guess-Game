@@ -52,6 +52,19 @@
         var losses = 0;
         var correctGuesses = 0;
 
+        // Apply the script to the html so it shows up on screen load.
+        var html = 
+            "<p>" + dashes + "</p>"+
+            "<h2>Your guesses</h2>"+
+            "<h3>"+ guesses +"</h3>"+
+            "<p>You have " + chances + " chances left to guess</p>"+
+            "<br>"+
+            "<br>"+
+            "<h2>Score:</h2>"+
+            "<p>Wins: "+ wins +"</p>"+
+            "<p>Losses: "+ losses +"</p>";
+
+            document.querySelector("#main-game").innerHTML = html;
         
         // the sequence that is run
         startGame();
@@ -71,7 +84,7 @@
             console.log("wins - " + wins);
             console.log("losses - " + losses);
             
-            // Apply the script to the html
+            // Update the html on every click 
             var html = 
             "<p>" + dashes + "</p>"+
             "<h2>Your guesses</h2>"+
@@ -87,8 +100,7 @@
         }; 
 
     //2 Make functions
-//_____function definitions below______________________________________________________________________
-        
+//_____function definitions below_____________________________________________________________________
 
 
         //starts the game when a key is pressed__________________________________________________________
@@ -100,11 +112,13 @@
             // splits the game word into an array with each letter as its own item
             gameLetters = chooseWord.split("");
             console.log(gameLetters);
+            
 
             // populates the array that gets printed on the screen with dashes for each letter
             for (i = 0; i < gameLetters.length; i++) {
                 dashes[i] = "_";
             };
+
             console.log(dashes);
             return dashes.join(" ");
 

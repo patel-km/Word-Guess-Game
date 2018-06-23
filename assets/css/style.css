@@ -5,9 +5,10 @@
     display:block;
     margin-left: 20%;
     margin-right: 20%;
-    margin-top: 20px;
-    padding:35px;
-    border: thin solid grey;
+    margin-top: 60px;
+    /* padding:35px; */
+    /* border: thin solid grey; */
+    background-color: white;
 }
 
 h1 {
@@ -34,7 +35,7 @@ p{
 /* font for hangman word
 
 
-/* Background element of game */
+/* Background element of game.*/ 
 #main-game {
     background-color: lightpink;
     border: 0.5px gray;
@@ -42,8 +43,10 @@ p{
     text-align: right;
 }
 
-#bgImages {
-    background-image: url('../images/flowers/flower1.png');
+body {
+    background-image: url('../images/flowers/bg_opacity40.png');
+    background-size: 1700px 800px;
+    
 }
 
 /* Footer styling*/
